@@ -42,7 +42,9 @@ INSTALLED_APPS = [
     'core',
     'dashboard',
     'item',
-    'henHouse'
+    'henHouse',
+    'buildings',
+    'user',
 ]
 
 MIDDLEWARE = [

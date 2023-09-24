@@ -58,7 +58,7 @@
         <div class="carousel">
             {% for department in departments %}
                 <div class="wholeCard mt-6">
-                    <a href="#">
+                    <a href="{% url department.link %}">
                         <img src="{{ department.image.url }}" alt="{{ department.name }}" class="mt-6">
 
                     <div class="p-6 bg-white rounded-b-xl card mb-6">

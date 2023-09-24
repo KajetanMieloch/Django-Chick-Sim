@@ -5,12 +5,14 @@ class Department(models.Model):
     name = models.CharField(max_length=50)
     description = models.TextField()
     image = models.ImageField(upload_to='department_images')
+    link = models.CharField(max_length=50)
     
     class Meta:
         verbose_name = 'Department'
 
     def __str__(self):
         return self.name
+
 
 class Chicken(models.Model):
     name = models.CharField(max_length=50)
