@@ -1,3 +1,6 @@
 from django.contrib import admin
 
-# Register your models here.
+from .models import Department, Chicken
+
+admin.site.register(Department)
+admin.site.register(Chicken)

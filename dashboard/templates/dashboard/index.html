@@ -2,9 +2,88 @@
 
 {% block title %}Dashboard{% endblock %}
 
+{% block style %}       /* Custom CSS for the carousel */
+.carousel {
+   margin-left: 10%;
+   margin-right: 10%;
+}
+.carousel img {
+    max-width: 90%;
+    height: auto;
+    display: block;
+    margin: 0 auto;
+    
+}
+.slick-prev,
+.slick-next {
+    position: absolute;
+    top: 40%;
+    transform: translateY(-50%);
+    z-index: 1;
+    cursor: pointer;
+    background: #fff;
+}
+.slick-prev:before {
+    color: black;
+    font-size: 40px;
+  }
+.slick-next:before {
+    color: black;
+    font-size: 40px;
+  }
+
+.card{
+    background-color: #fff;
+    border-radius: 0, 0, 10, 10;
+    box-shadow: 0 0 10px rgba(0,0,0,0.2);
+    overflow: hidden;
+    transition: all 0.3s ease-in-out;
+    margin-left: 5%;
+    margin-right: 5%;
+}
+
+.wholeCard:hover{
+    transform: translateY(-5px);
+}
+
+{% endblock %}
+
 {% block content %}
     <div class="mt-6 px-6 py-12 bg-gray-100 rounded-xl">
-        <h2 class="mb-12 text-2xl font-bold text-center">Dashboard</h2>
+        <h1 class="mb-6 text-4xl font-bold text-center text-sky-950">Dashboard</h1>
+        <hr class="mb-2" style="border-top: 1px solid gray;">
+        <h2 class="mb-6 text-2xl font-bold text-center text-sky-950">Live Stats</h2>
+        <hr class="mb-2" style="border-top: 1px solid gray;">
+        <h2 class="mb-6 text-2xl font-bold text-center text-sky-950">Shortcuts</h2>
+        <div class="carousel">
+            {% for department in departments %}
+                <div class="wholeCard mt-6">
+                    <a href="#">
+                        <img src="{{ department.image.url }}" alt="{{ department.name }}" class="mt-6">
 
+                    <div class="p-6 bg-white rounded-b-xl card mb-6">
+                        <h3 class="mb-2 text-xl font-bold">{{ department.name }}</h3>
+                        <p class="mb-4 text-gray-500">{{ department.description }}</p>
+                </div>
+                </a>
+                </div>
+            {% endfor %}
+        </div>
     </div>
+    
+        <script>
+            $(document).ready(function(){
+                $('.carousel').slick({
+                    infinite: true,
+                    slidesToShow: 4,
+                    slidesToScroll: 1,
+                    autoplay: true,
+                    autoplaySpeed: 3500,
+                    prevArrow: '<button type="button" class="slick-prev"></button>',
+                    nextArrow: '<button type="button" class="slick-next"></button>'
+                });
+            });
+        </script>
+
+
 {% endblock %}
