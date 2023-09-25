@@ -29,7 +29,12 @@
                 <p class="mb-2 text-center text-sky-950">{{ building.cost }}$</p>
                 {% endif %}
                 {% if building in user_profile.buildings.all %}
-                <p></p>
+                <p>Upgrade cost: {{ building_levels|get:building.id|mul:110|add:building.cost}}$</p>
+                <form method="post" action="{% url 'buildings:upgrade_building' %}">
+                    {% csrf_token %}
+                    <input type="hidden" name="building_id" value="{{ building.id }}">
+                    <button type="submit" class="px-4 py-2 text-white bg-sky-950 rounded-xl hover:bg-sky-800">Upgrade</button>
+                </form>
                 {% else %}
                 <form method="post" action="{% url 'buildings:build_building' %}">
                     {% csrf_token %}

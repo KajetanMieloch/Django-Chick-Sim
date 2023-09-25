@@ -1,6 +1,8 @@
 from django.shortcuts import render, redirect
 from user.models import UserProfile, BuildingLevel
 from buildings.models import Building
+from django.http import JsonResponse
+from django.contrib.auth.decorators import login_required
 
 from .forms import SignupForm
 
@@ -29,6 +31,16 @@ def signup(request):
     
     return render(request, 'core/signup.html', {
         'form': form,
+    })
+
+@login_required
+def live_data(request):
+    
+    user_profile = UserProfile.objects.get(user=request.user)
+    
+    return JsonResponse({
+        'egg': user_profile.egg,
+        'money': user_profile.money,
     })
     
 def soon(request):

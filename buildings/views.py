@@ -27,29 +27,16 @@ def upgrade_building(request):
         user_profile = UserProfile.objects.get(user=request.user)
         building_level = BuildingLevel.objects.get(user_profile=user_profile, building_id=building_id)
         building = building_level.building
-        if user_profile.money >= building.upgrade_cost(building_level.level):
-            user_profile.money -= building.upgrade_cost(building_level.level)
+        building_upgrade_cost = building_level.level*110+building.cost
+        if user_profile.money >= building_upgrade_cost:
+            user_profile.money -= building_upgrade_cost
             building_level.level += 1
             building_level.save()
             user_profile.save()
             messages.success(request, f'{building.name} upgraded to level {building_level.level}')
         else:
             messages.error(request, f'Not enough money to upgrade {building.name}')
-    return redirect('buildings:buildings')
-
-
-@login_required
-def build_building(request):  
-    if request.method == 'POST':
-        building_id = request.POST.get('building_id')
-        building = Building.objects.get(id=building_id)
-        user_profile = request.user.userprofile
-        user_profile.buildings.add(building)
-        building.owned = True
-        building.save()
-        return redirect('buildings:index')
-    else:
-        return redirect('buildings:index')
+    return redirect('buildings:index')
 
 
 @login_required
