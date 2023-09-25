@@ -11,7 +11,9 @@ def index(request):
     buildings = Building.objects.all()
     building_levels = BuildingLevel.objects.filter(user_profile=user_profile)
     building_levels_dict = {bl.building_id: bl.level for bl in building_levels}
-    print(building_levels_dict)  # Debugging statement
+
+
+    
     context = {
         'user_profile': user_profile,
         'buildings': buildings,
@@ -27,7 +29,7 @@ def upgrade_building(request):
         user_profile = UserProfile.objects.get(user=request.user)
         building_level = BuildingLevel.objects.get(user_profile=user_profile, building_id=building_id)
         building = building_level.building
-        building_upgrade_cost = building_level.level*110+building.cost
+        building_upgrade_cost = (building_level.level+building.cost)*180
         if user_profile.money >= building_upgrade_cost:
             user_profile.money -= building_upgrade_cost
             building_level.level += 1

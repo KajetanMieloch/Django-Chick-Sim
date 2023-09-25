@@ -29,7 +29,10 @@
                 <p class="mb-2 text-center text-sky-950">{{ building.cost }}$</p>
                 {% endif %}
                 {% if building in user_profile.buildings.all %}
-                <p>Upgrade cost: {{ building_levels|get:building.id|mul:110|add:building.cost}}$</p>
+                <a class="mb-2 text-center text-sky-950" href="#">Eggs per second : {{ building_levels|get:building.id|add:building.eggs_per_second|pow:2 }}</a>
+                <a class="mb-2 text-center text-sky-950" href="#">Eggs in storage : {{ building.egg_in_storage}} / {{ building_levels|get:building.id|add:building.egg_capacity|mul:2|pow:2 }} </a>
+                
+                <p>Upgrade cost: {{ building_levels|get:building.id|add:building.cost|pow:3}}$</p>
                 <form method="post" action="{% url 'buildings:upgrade_building' %}">
                     {% csrf_token %}
                     <input type="hidden" name="building_id" value="{{ building.id }}">

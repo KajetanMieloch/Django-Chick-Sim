@@ -8,6 +8,8 @@ def index(request):
     
     departments = Department.objects.all()
     
+
+    
     return render(request, 'dashboard/index.html', {
         'departments': departments,
     })

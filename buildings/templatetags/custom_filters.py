@@ -9,3 +9,7 @@ def get(dictionary, key):
 @register.filter
 def mul(value, arg):
     return value * arg
+
+@register.filter
+def pow(value, arg):
+    return value ** arg
