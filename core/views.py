@@ -1,5 +1,5 @@
 from django.shortcuts import render, redirect
-from user.models import UserProfile
+from user.models import UserProfile, BuildingLevel
 from buildings.models import Building
 
 from .forms import SignupForm
@@ -17,6 +17,11 @@ def signup(request):
             
             user_profile = UserProfile.objects.create(user=form.instance)
             user_profile.buildings.set(Building.objects.all()[:1])
+            
+            BuildingLevel.objects.bulk_create([
+                BuildingLevel(user_profile=user_profile, building=building)
+                for building in Building.objects.all()
+            ])
                 
             return redirect('core:login')
     else:

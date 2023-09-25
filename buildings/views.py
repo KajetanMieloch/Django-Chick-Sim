@@ -50,3 +50,23 @@ def build_building(request):
         return redirect('buildings:index')
     else:
         return redirect('buildings:index')
+
+
+@login_required
+def build_building(request):  
+    if request.method == 'POST':
+        building_id = request.POST.get('building_id')
+        building = Building.objects.get(id=building_id)
+        user_profile = request.user.userprofile
+        if user_profile.money >= building.cost:
+            user_profile.money -= building.cost
+            user_profile.buildings.add(building)
+            building.owned = True
+            building.save()
+            user_profile.save()
+            messages.success(request, f'{building.name} built successfully')
+        else:
+            messages.error(request, f'Not enough money to build {building.name}')
+        return redirect('buildings:index')
+    else:
+        return redirect('buildings:index')
