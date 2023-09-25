@@ -1,6 +1,9 @@
 from django.db import models
 
 class Building(models.Model):
+    
+    id = models.IntegerField(primary_key=True)
+    
     name = models.CharField(max_length=50)
     description = models.TextField()
     level = models.IntegerField(default=1)

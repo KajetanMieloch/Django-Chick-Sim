@@ -1,5 +1,7 @@
 {% extends 'core/base.html' %}
 
+{% load custom_filters %}
+
 {% block content %}
 <div class="mt-6 mb-6 px-6 py-12 bg-gray-100 rounded-xl">
     <h1 class="mb-6 text-4xl font-bold text-center text-sky-950">Buildings</h1>
@@ -10,12 +12,12 @@
                 <h1 class="mb-2 text-2xl font-bold text-center text-sky-950">{{ building.name }}</h1>
                 <p class="mb-2 text-center text-sky-950">{{ building.description }}</p>
                 {% if building in user_profile.buildings.all %}
-                <p class="mb-2 text-center text-sky-950">Level:</p>
+                <p class="mb-2 text-center text-sky-950">Level: {{ building_levels|get:building.id }}</p>
                 {% else %}
                 <p class="mb-2 text-center text-sky-950">{{ building.cost }}$</p>
                 {% endif %}
                 {% if building in user_profile.buildings.all %}
-                <a href="#" class="px-4 py-2 text-white bg-teal-800 rounded-xl hover:bg-teal-600">Upgrade</a>
+                <p></p>
                 {% else %}
                 <form method="post" action="{% url 'buildings:build_building' %}">
                     {% csrf_token %}
