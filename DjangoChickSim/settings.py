@@ -42,7 +42,6 @@ INSTALLED_APPS = [
     'core',
     'dashboard',
     'item',
-    'henHouse',
     'buildings',
     'user',
 ]

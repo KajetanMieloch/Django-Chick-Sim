@@ -9,12 +9,20 @@
             <div class="flex flex-col items-center justify-center p-4 bg-white rounded-xl shadow-md">
                 <h1 class="mb-2 text-2xl font-bold text-center text-sky-950">{{ building.name }}</h1>
                 <p class="mb-2 text-center text-sky-950">{{ building.description }}</p>
-                <p class="mb-2 text-center text-sky-950">{{ building.cost }}$</p>
                 {% if building in user_profile.buildings.all %}
-                <a href="{% url building.url_name %}" class="px-4 py-2 text-white bg-sky-950 rounded-xl hover:bg-sky-800">Enter</a>
+                <p class="mb-2 text-center text-sky-950">Level:</p>
                 {% else %}
-                <a href="#" class="px-4 py-2 text-white bg-sky-950 rounded-xl hover:bg-sky-800">Build</a>
+                <p class="mb-2 text-center text-sky-950">{{ building.cost }}$</p>
                 {% endif %}
+                {% if building in user_profile.buildings.all %}
+                <a href="#" class="px-4 py-2 text-white bg-teal-800 rounded-xl hover:bg-teal-600">Upgrade</a>
+                {% else %}
+                <form method="post" action="{% url 'buildings:build_building' %}">
+                    {% csrf_token %}
+                    <input type="hidden" name="building_id" value="{{ building.id }}">
+                    <button type="submit" class="px-4 py-2 text-white bg-sky-950 rounded-xl hover:bg-sky-800">Build</button>
+                </form>
+            {% endif %}
             </div>
             {% endfor %}
         </div>

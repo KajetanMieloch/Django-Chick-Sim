@@ -23,7 +23,6 @@
         </div>
         <div class="space-x-6">
             {% if user.is_authenticated %}
-                <a href="{% url 'henHouse:index' %}" class="px-6 py-2 bg-sky-900 text-white rounded hover:bg-sky-800">Hen House</a>
                 <a href="{% url 'dashboard:index' %}" class="px-6 py-2 bg-sky-900 text-white rounded hover:bg-sky-800">Dashboard</a>
                 <a href="{% url 'core:logout' %}" class="px-6 py-2 bg-sky-900 text-white rounded hover:bg-sky-800">Logout</a>
             {% else %}
