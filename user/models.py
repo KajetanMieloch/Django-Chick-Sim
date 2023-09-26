@@ -18,3 +18,4 @@ class BuildingLevel(models.Model):
     building = models.ForeignKey(Building, on_delete=models.CASCADE)
     user_profile = models.ForeignKey(UserProfile, on_delete=models.CASCADE)
     level = models.IntegerField(default=1)
+    egg_in_storage = models.IntegerField(default=0)

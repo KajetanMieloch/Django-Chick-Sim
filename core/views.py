@@ -18,7 +18,8 @@ def signup(request):
             
             
             user_profile = UserProfile.objects.create(user=form.instance)
-            user_profile.buildings.set(Building.objects.all()[:1])
+            #user_profile.buildings.set(Building.objects.all()[:1])
+            user_profile.money = 10
             
             BuildingLevel.objects.bulk_create([
                 BuildingLevel(user_profile=user_profile, building=building)

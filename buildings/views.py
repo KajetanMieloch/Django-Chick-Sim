@@ -11,13 +11,15 @@ def index(request):
     buildings = Building.objects.all()
     building_levels = BuildingLevel.objects.filter(user_profile=user_profile)
     building_levels_dict = {bl.building_id: bl.level for bl in building_levels}
+    building_eggs_dict = {bl.building_id: bl.egg_in_storage for bl in building_levels}
 
 
     
     context = {
         'user_profile': user_profile,
         'buildings': buildings,
-        'building_levels': building_levels_dict
+        'building_levels': building_levels_dict,
+        'building_eggs': building_eggs_dict,
     }
     return render(request, 'buildings/index.html', context)
 
@@ -52,7 +54,7 @@ def build_building(request):
             user_profile.buildings.add(building)
             building.owned = True
             building.save()
-            user_profile.save()
+            user_profile.save()            
             messages.success(request, f'{building.name} built successfully')
         else:
             messages.error(request, f'Not enough money to build {building.name}')

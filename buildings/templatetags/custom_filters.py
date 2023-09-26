@@ -13,3 +13,7 @@ def mul(value, arg):
 @register.filter
 def pow(value, arg):
     return value ** arg
+
+@register.filter
+def dev(value, arg):
+    return value/arg

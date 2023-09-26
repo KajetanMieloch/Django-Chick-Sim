@@ -13,9 +13,8 @@ class Building(models.Model):
     
     cost = models.FloatField(default=0)
 
-    eggs_per_second = models.FloatField(default=0)
+    eggs_per_click = models.FloatField(default=0)
     
-    egg_in_storage = models.IntegerField(default=0)
     egg_capacity = models.IntegerField(default=0)
     
     owned = models.BooleanField(default=False)

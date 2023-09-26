@@ -29,15 +29,17 @@
                 <p class="mb-2 text-center text-sky-950">{{ building.cost }}$</p>
                 {% endif %}
                 {% if building in user_profile.buildings.all %}
-                <a class="mb-2 text-center text-sky-950" href="#">Eggs per second : {{ building_levels|get:building.id|add:building.eggs_per_second|pow:2 }}</a>
-                <a class="mb-2 text-center text-sky-950" href="#">Eggs in storage : {{ building.egg_in_storage}} / {{ building_levels|get:building.id|add:building.egg_capacity|mul:2|pow:2 }} </a>
+                <a class="mb-2 text-center text-sky-950" href="#">Eggs per click : {{ building_levels|get:building.id|add:building.eggs_per_click|pow:3|mul:0.1 }}</a>
+                <a class="mb-2 text-center text-sky-950" href="#">Eggs in storage : <span id="{{building.id}}egg">{{ building_eggs|get:building.id }}</span> / <span id="{{building.id}}egg_limit"{{ building_levels|get:building.id|add:building.egg_capacity|mul:1|pow:3 }}</span> </a>
+
                 
                 <p>Upgrade cost: {{ building_levels|get:building.id|add:building.cost|pow:3}}$</p>
                 <form method="post" action="{% url 'buildings:upgrade_building' %}">
                     {% csrf_token %}
                     <input type="hidden" name="building_id" value="{{ building.id }}">
-                    <button type="submit" class="px-4 py-2 text-white bg-sky-950 rounded-xl hover:bg-sky-800">Upgrade</button>
+                    <button type="submit" class="px-4 mt-4 py-2 text-white bg-sky-950 rounded-xl hover:bg-sky-800">Upgrade</button>
                 </form>
+                <button class="px-4 py-2 mt-4 text-white bg-sky-800 rounded-xl hover:bg-sky-700" onclick="add_egg_to_storage('{{ building.id }}egg')">Add egg to storage</button>
                 {% else %}
                 <form method="post" action="{% url 'buildings:build_building' %}">
                     {% csrf_token %}
@@ -50,4 +52,10 @@
         </div>
     </div>
 </div>
+<script>
+    const add_egg_to_storage = (eggs_storage) =>{
+        document.getElementById(eggs_storage).innerHTML = parseInt(document.getElementById(eggs_storage).innerHTML) + 1;
+        
+    }
+</script>
 {% endblock %}
