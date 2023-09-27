@@ -29,7 +29,7 @@
                 <p class="mb-2 text-center text-sky-950">{{ building.cost }}$</p>
                 {% endif %}
                 {% if building in user_profile.buildings.all %}
-                <a class="mb-2 text-center text-sky-950" href="#">Eggs per click : <span id="{{building.id}}eggs_per_click">{{ building_levels|get:building.id|add:building.eggs_per_click|pow:3|mul:0.1 }}</span></a>
+                <a class="mb-2 text-center text-sky-950" href="#">Eggs per click : <span id="{{building.id}}eggs_per_click">{{ building_levels|get:building.id|add:building.eggs_per_click|pow:3|mul:0.1|round }}</span></a>
                 <a class="mb-2 text-center text-sky-950" href="#">Eggs in storage : <span id="{{building.id}}egg">{{ building_eggs|get:building.id }}</span> / <span id="{{building.id}}egg_limit">{{ building_levels|get:building.id|add:building.egg_capacity|mul:1|pow:3 }}</span> </a>
 
                 
@@ -40,6 +40,11 @@
                     <button type="submit" class="px-4 mt-4 py-2 text-white bg-sky-950 rounded-xl hover:bg-sky-800">Upgrade</button>
                 </form>
                 <button class="px-4 py-2 mt-4 text-white bg-sky-800 rounded-xl hover:bg-sky-700" onclick="add_egg_to_storage('{{ building.id }}egg', '{{ building.id }}egg_limit', '{{ building.id }}eggs_per_click')">Add to storage</button>
+                <form method="post" action="{% url 'buildings:collect_eggs' %}">
+                    {% csrf_token %}
+                    <input type="hidden" name="building_id" value="{{ building.id }}">
+                <button type="submit" class="px-4 py-2 mt-4 text-white bg-red-950 rounded-xl hover:bg-red-800">Collect eggs</button>
+                </form>
                 {% else %}
                 <form method="post" action="{% url 'buildings:build_building' %}">
                     {% csrf_token %}
@@ -64,7 +69,7 @@
         all_egg_elements_id_dict[eggs_storage] = egg;
 
         if (parseFloat(egg_limit_element.innerHTML) >= parseFloat(egg.innerHTML) + parseFloat(eggs_per_click_element.innerHTML)) {
-            egg.innerHTML = parseInt(egg.innerHTML) + parseInt(eggs_per_click_element.innerHTML);
+            egg.innerHTML = (parseFloat(egg.innerHTML) + parseFloat(eggs_per_click_element.innerHTML)).toFixed(1);
         } else {
             egg.innerHTML = egg_limit_element.innerHTML;
             alert('You have reached the limit of your storage');

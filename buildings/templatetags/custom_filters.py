@@ -8,12 +8,16 @@ def get(dictionary, key):
 
 @register.filter
 def mul(value, arg):
-    return value * arg
+    return float(value) * float(arg)
 
 @register.filter
 def pow(value, arg):
-    return value ** arg
+    return float(value) ** float(arg)
 
 @register.filter
 def dev(value, arg):
-    return value/arg
+    return float(value)/float(arg)
+
+@register.filter
+def round(value):
+    return int(value)

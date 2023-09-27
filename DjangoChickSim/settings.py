@@ -44,6 +44,7 @@ INSTALLED_APPS = [
     'item',
     'buildings',
     'user',
+    'market',
 ]
 
 MIDDLEWARE = [

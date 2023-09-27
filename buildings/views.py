@@ -83,7 +83,7 @@ def save_eggs(request):
             building_levels = BuildingLevel.objects.filter(user_profile=user_profile)
             building_eggs_dict = {bl.building_id: bl.egg_in_storage for bl in building_levels}
             
-            building_eggs_dict.update({int(id): int(content)})
+            building_eggs_dict.update({int(id): float(content)})
             #Now save this new data
             for building_id, egg_count in building_eggs_dict.items():
                 building_level = BuildingLevel.objects.get(user_profile=user_profile, building_id=building_id)
@@ -96,3 +96,25 @@ def save_eggs(request):
             return JsonResponse({'error': 'Invalid JSON data'}, status=400)
 
     return JsonResponse({'error': 'Invalid request method'}, status=400)
+
+
+@login_required
+def collect_eggs(request):
+    if request.method == 'POST':
+        user_profile = UserProfile.objects.get(user=request.user)
+        building_levels = BuildingLevel.objects.filter(user_profile=user_profile)
+        building_eggs_dict = {bl.building_id: bl.egg_in_storage for bl in building_levels}
+        id = request.POST.get('building_id')
+        building = Building.objects.get(id=id)
+        egg_count = building_eggs_dict.get(int(id))
+        user_profile.egg += egg_count
+        building_eggs_dict.update({int(id): 0})
+        #now save this new data
+        building_level = BuildingLevel.objects.get(user_profile=user_profile, building_id=id)
+        building_level.egg_in_storage = 0
+        building_level.save()
+
+              
+        user_profile.save()
+        messages.success(request, f'Collected {egg_count} eggs')
+    return redirect('buildings:index')
