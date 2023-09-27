@@ -7,6 +7,7 @@ class Shopping_item(models.Model):
     description = models.TextField()
     costbuy = models.FloatField(default=0)
     costsell = models.FloatField(default=0)
+    offset = models.FloatField(default=0.1)
     
     def __str__(self):
         return self.name

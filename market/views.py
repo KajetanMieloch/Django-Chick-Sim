@@ -17,31 +17,36 @@ def index(request):
 @login_required
 def buy_sell_eggs(request):
     if request.method == 'POST':
+        user_profile = UserProfile.objects.get(user=request.user)
+        item_name = request.POST.get('item_name')
         action = request.POST.get('action')
-        print(buy_sell_eggs)
+        
+        item = getattr(user_profile, item_name)
+
         if action == 'buy':
-            user_profile = UserProfile.objects.get(user=request.user)
+
             money = user_profile.money
-            egg = user_profile.egg
             ammount = int(request.POST.get('eggs'))
+            cost_buy = Shopping_item.objects.get(name=item_name).costbuy
+            
             if money >= ammount:
-                user_profile.money -= ammount
-                user_profile.egg += ammount
+                setattr(user_profile, item_name, item + ammount)
+                user_profile.money -= ammount * cost_buy
                 user_profile.save()
-                messages.success(request, f'{ammount} eggs bought successfully')
+                messages.success(request, f'{ammount} {item_name} bought successfully')
             else:
-                messages.error(request, f'Not enough money to buy {ammount} eggs')
+                messages.error(request, f'Not enough money to buy {ammount} {item_name}')
         elif action == 'sell':
-            user_profile = UserProfile.objects.get(user=request.user)
-            egg = user_profile.egg
             ammount = int(request.POST.get('eggs'))
-            if egg >= ammount:
-                user_profile.egg -= ammount
-                user_profile.money += ammount
+            cost_sell = Shopping_item.objects.get(name=item_name).costsell
+            
+            if item >= ammount:
+                setattr(user_profile, item_name, item - ammount)
+                user_profile.money += ammount * cost_sell
                 user_profile.save()
-                messages.success(request, f'{ammount} eggs sold successfully')
+                messages.success(request, f'{ammount} {item_name} sold successfully')
             else:
-                messages.error(request, f'Not enough eggs to sell {ammount}')
+                messages.error(request, f'Not enough {item_name} to sell {ammount}')
         else:
             print(request.POST)
     return redirect('market:index')

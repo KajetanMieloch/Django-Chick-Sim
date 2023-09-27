@@ -41,8 +41,9 @@ def live_data(request):
     user_profile = UserProfile.objects.get(user=request.user)
     
     return JsonResponse({
-        'egg': user_profile.egg,
+        'egg': user_profile.Egg,
         'money': user_profile.money,
+        'hay': user_profile.Hay,
     })
     
 def soon(request):

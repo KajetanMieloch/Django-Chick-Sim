@@ -7,7 +7,8 @@ class UserProfile(models.Model):
     buildings = models.ManyToManyField(Building, related_name='user_profiles')
     buildings_level = models.ManyToManyField(Building, through='BuildingLevel', related_name='user_profile_levels_new')
     money = models.IntegerField(default=0)
-    egg = models.IntegerField(default=0)
+    Egg = models.IntegerField(default=0)
+    Hay = models.IntegerField(default=0)
     egg_per_second = models.IntegerField(default=0)
     money_per_second = models.IntegerField(default=0)
 
