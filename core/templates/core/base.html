@@ -15,6 +15,14 @@
 
     <style>{% block style %}{% endblock %}</style>
 
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Chart with Tailwind CSS</title>
+    <!-- Include Chart.js library -->
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <!-- Include Tailwind CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+
 </head>
 <body class="bg-zinc-800">
     <nav class="py-6 px-6 flex justify-between items-center bg-sky-700">
@@ -78,7 +86,7 @@
             })
     }
 
-    setInterval(updateLiveData, 500);
+    setInterval(updateLiveData, 2000);
 </script>
 
 </body>

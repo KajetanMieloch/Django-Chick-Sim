@@ -76,8 +76,6 @@ def save_eggs(request):
             content = data.get('content')
 
             # Process the data as needed (e.g., save it to the database)
-            
-            print(id, content)
 
             user_profile = UserProfile.objects.get(user=request.user)
             building_levels = BuildingLevel.objects.filter(user_profile=user_profile)
@@ -107,14 +105,14 @@ def collect_eggs(request):
         id = request.POST.get('building_id')
         building = Building.objects.get(id=id)
         egg_count = building_eggs_dict.get(int(id))
-        user_profile.egg += egg_count
+        user_profile.update_int_array(egg_count)
+        user_profile.Egg += egg_count
         building_eggs_dict.update({int(id): 0})
         #now save this new data
-        building_level = BuildingLevel.objects.get(user_profile=user_profile, building_id=id)
+        building_level = BuildingLevel.objects.get(user_profile=user_profile, building_id=id) 
         building_level.egg_in_storage = 0
         building_level.save()
-
-              
         user_profile.save()
+   
         messages.success(request, f'Collected {egg_count} eggs')
     return redirect('buildings:index')

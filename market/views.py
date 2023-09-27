@@ -10,7 +10,7 @@ def index(request):
     shoping_items = Shopping_item.objects.all()
     
     return render(request, 'market/index.html', {
-        'shoping_items': shoping_items
+        'shoping_items': shoping_items,
         })
 
 
